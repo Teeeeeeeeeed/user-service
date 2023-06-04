@@ -1,5 +1,5 @@
 import { Column, Model, Table } from 'sequelize-typescript';
-@Table
+@Table({tableName: 'Users'})
 export class User extends Model<User> {
   @Column
   firstName: string;
@@ -15,4 +15,7 @@ export class User extends Model<User> {
 
   @Column
   addressCode: string;
+
+  @Column
+  password: string;
 }
