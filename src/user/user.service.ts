@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './user.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateUserDto, LoginUser } from 'src/libs/User';
+import { CreateUserDto, LoginUser } from 'src/libs/user-dto';
 import * as bcrypt from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
 

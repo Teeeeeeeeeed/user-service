@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
-import { CreateUserDto, LoginUser } from '../libs/User';
+import { CreateUserDto, LoginUser } from '../libs/user-dto';
 import { UserService } from './user.service';
 import { Request } from 'express';
 
