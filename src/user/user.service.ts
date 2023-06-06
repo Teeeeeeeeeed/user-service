@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './user.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateUserDto, LoginUser } from 'src/libs/user-dto';
 import * as bcrypt from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
+import { CreateUserDto, LoginUser } from '../libs/user-dto';
 
 @Injectable()
 export class UserService {
@@ -16,10 +16,11 @@ export class UserService {
     }
 
     async createUser(newUser: CreateUserDto) {
-        const {passwordConfirmation, ...user} = newUser;
+        const { passwordConfirmation, ...user } = newUser;
         const salt = await bcrypt.genSalt(parseInt(process.env.NUMBER_SALT));
         const hash = await bcrypt.hash(user.password, salt);
         user.password = hash;
+
         await this.userModel.create(user)
     }
 

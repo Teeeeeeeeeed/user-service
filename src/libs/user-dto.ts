@@ -1,5 +1,5 @@
 import { IsEmail, IsMobilePhone, IsNotEmpty, IsString, Matches, MaxLength, MinLength, Validate } from 'class-validator';
-import { MatchPasswords, UniqueEmail } from './validators';
+import { MatchPasswords } from "./validators";
 
 
 export class CreateUserDto {
@@ -10,7 +10,6 @@ export class CreateUserDto {
   lastName: string;
 
   @IsEmail()
-  @Validate(UniqueEmail)
   email: string;
 
   @IsNotEmpty()

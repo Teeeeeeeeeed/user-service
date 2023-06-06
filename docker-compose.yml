@@ -1,16 +1,50 @@
-mysql-docker:
-    image: mysql
-    container_name: mysql-docker
+services:
+  database:
+    image: postgres
     environment:
-      - MYSQL_ROOT_PASSWORD=any_password
-    volumes:
-      - express-mysql-data:/var/lib/mysql
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=4989
+      - POSTGRES_DB=user-service
     ports:
-      - '3306:3306'
-    networks:
-      - express-mysql-network
-    restart: on-failure
+      - '5432:5432'
+    volumes:
+      - docker-nest-postgres:/var/lib/postgresql/data
+      
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+    environment:
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=4989
+      - DATABASE=user-service
+      - DB_HOST=database
+
+  migration:
+    build:
+      context: .
+    command:
+      [
+        "./wait-for-it/wait-for-it.sh",
+        "db:5432",
+        "--",
+        "npm",
+        "run",
+        "migrate"
+      ]
+    links:
+      - database
+    depends_on:
+      - database
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=user-service
 volumes:
-  express-mysql-data:
-networks:
-  express-mysql-network:
+  docker-nest-postgres:
+  

@@ -3,14 +3,13 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user/user.model';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { UniqueEmail } from './libs/validators';
 
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
       dialect:'postgres',
-      host:'localhost',
+      host:process.env.DB_HOST,
       port: parseInt(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
@@ -20,6 +19,6 @@ import { UniqueEmail } from './libs/validators';
     SequelizeModule.forFeature([User])
   ],
   controllers: [UserController],
-  providers: [UniqueEmail, UserService],
+  providers: [UserService],
 })
 export class AppModule {}
